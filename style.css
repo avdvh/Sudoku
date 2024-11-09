@@ -15,11 +15,12 @@ body {
     min-height: 100vh;
     flex-direction: column;
     padding: 20px;
+    transition: background-color 0.5s ease;
 }
 
 h1 {
     margin-bottom: 20px;
-    font-size: 2em;
+    font-size: 2.5em;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -27,18 +28,23 @@ h1 {
 .container {
     text-align: center;
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
 }
 
 /* Sudoku Table Styling */
 table {
     border-collapse: collapse;
     width: 100%;
+    margin-top: 20px;
+    background-color: #1f1f1f;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 td {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     text-align: center;
     border: 1px solid #424242;
 }
@@ -51,6 +57,12 @@ input {
     background-color: #3a3a3a;
     border: none;
     outline: none;
+    text-align: center;
+    font-weight: bold; /* User inputs bold */
+}
+
+.output {
+    font-weight: normal; /* Generated outputs normal weight */
 }
 
 input:focus {
@@ -87,13 +99,13 @@ tr:nth-child(3n+1) td {
 }
 
 .btn {
-    padding: 10px 20px;
-    font-size: 1em;
+    padding: 12px 24px;
+    font-size: 1.1em;
     margin: 5px;
     cursor: pointer;
     border-radius: 6px;
     border: none;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .solve-btn {
@@ -138,8 +150,8 @@ tr:nth-child(3n+1) td {
     }
 
     td {
-        width: 30px;
-        height: 30px;
+        width: 35px;
+        height: 35px;
     }
 
     input {
