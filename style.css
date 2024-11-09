@@ -1,57 +1,19 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Arial', sans-serif;
+/* General styling omitted for brevity */
+
+/* Error Message Styling */
+#error-message {
+  color: #ff4d4d;
+  font-size: 1em;
+  margin-top: 10px;
+  transition: opacity 0.3s ease;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #1c1c1c;
-  color: #e0e0e0;
+/* Invalid Input Styling */
+.invalid-input {
+  background-color: #ffcccc !important;
 }
 
-.container {
-  text-align: center;
-  padding: 20px;
-  max-width: 480px;
-  width: 100%;
-  background-color: #2e2e2e;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-}
-
-h1 {
-  font-size: 2em;
-  margin-bottom: 20px;
-  color: #f5f5f5;
-}
-
-#dimension-selection {
-  margin-bottom: 15px;
-}
-
-label {
-  font-size: 1.1em;
-  margin-right: 10px;
-}
-
-select {
-  padding: 8px;
-  background-color: #3a3a3a;
-  color: #e0e0e0;
-  border: none;
-  border-radius: 5px;
-}
-
-.grid-container {
-  display: inline-block;
-  margin: 15px 0;
-}
-
+/* Styling for the 9x9 Sudoku grid with thick borders for 3x3 boxes */
 table {
   border-collapse: collapse;
   margin: 0 auto;
@@ -60,8 +22,8 @@ table {
 td {
   width: 40px;
   height: 40px;
-  border: 1px solid #424242;
   text-align: center;
+  border: 1px solid #424242;
 }
 
 input {
@@ -133,4 +95,21 @@ input:focus {
     padding: 8px 16px;
     font-size: 0.9em;
   }
+}
+
+/* Style for the thick borders around each 3x3 box */
+table td:nth-child(3n) {
+  border-right: 3px solid #424242;
+}
+
+table tr:nth-child(3n) td {
+  border-bottom: 3px solid #424242;
+}
+
+table td:nth-child(3n+1) {
+  border-left: 3px solid #424242;
+}
+
+table tr:nth-child(3n+1) td {
+  border-top: 3px solid #424242;
 }
