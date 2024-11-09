@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         input.classList.add('cell');
         
         // Add event listener to handle input validation
-        input.addEventListener('input', (event) => validateInput(event));
+        input.addEventListener('input', (event) => validateInput(event, row, col));
         
         td.appendChild(input);
         tr.appendChild(td);
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Validate user input (only numbers 1-9)
-  function validateInput(event) {
+  function validateInput(event, row, col) {
     const input = event.target;
     const value = input.value;
 
@@ -38,9 +38,38 @@ document.addEventListener('DOMContentLoaded', () => {
       input.classList.add('invalid-input');
       showError('Invalid input! Please enter a number between 1-9.');
     } else {
-      input.classList.remove('invalid-input');
-      clearError();
+      if (isDuplicate(value, row, col)) {
+        input.classList.add('invalid-input');
+        showError('Duplicate number in row, column, or 3x3 grid!');
+      } else {
+        input.classList.remove('invalid-input');
+        clearError();
+      }
     }
+  }
+
+  // Check for duplicate numbers in the same row, column, or 3x3 box
+  function isDuplicate(value, row, col) {
+    const grid = getGrid();
+    // Check row and column for duplicates
+    for (let i = 0; i < 9; i++) {
+      if ((grid[row][i] == value && i !== col) || (grid[i][col] == value && i !== row)) {
+        return true;
+      }
+    }
+
+    // Check 3x3 subgrid for duplicates
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+    for (let i = startRow; i < startRow + 3; i++) {
+      for (let j = startCol; j < startCol + 3; j++) {
+        if (grid[i][j] == value && (i !== row || j !== col)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   // Show error messages
@@ -71,79 +100,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Reset the board
   resetBtn.addEventListener('click', () => {
-    document.querySelectorAll('.cell').forEach(cell => {
-      cell.value = '';
-      cell.classList.remove('invalid-input');
-    });
+    document.querySelectorAll('.cell').forEach(cell => cell.value = '');
     clearError();
   });
 
-  // Get the grid values from the inputs
+  // Get the current grid data
   function getGrid() {
     const grid = [];
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach((cell, index) => {
-      const row = Math.floor(index / 9);
-      const col = index % 9;
-      const value = parseInt(cell.value) || 0;
-      if (!grid[row]) grid[row] = [];
-      grid[row][col] = value;
+    const rows = board.querySelectorAll('tr');
+    rows.forEach((row, rowIndex) => {
+      const rowData = [];
+      const cells = row.querySelectorAll('input');
+      cells.forEach((cell, colIndex) => {
+        rowData.push(cell.value ? parseInt(cell.value) : 0);
+      });
+      grid.push(rowData);
     });
     return grid;
   }
 
   // Set the grid values after solving
   function setGrid(grid) {
-    const cells = document.querySelectorAll('.cell');
-    cells.forEach((cell, index) => {
-      const row = Math.floor(index / 9);
-      const col = index % 9;
-      cell.value = grid[row][col] || '';
+    const rows = board.querySelectorAll('tr');
+    grid.forEach((rowData, rowIndex) => {
+      const cells = rows[rowIndex].querySelectorAll('input');
+      rowData.forEach((cellValue, colIndex) => {
+        cells[colIndex].value = cellValue !== 0 ? cellValue : '';
+      });
     });
   }
 
-  // Validate if the grid is filled with valid numbers
-  function validateGrid(grid) {
-    return grid.every(row => row.every(cell => cell >= 0 && cell <= 9));
-  }
-
-  // Sudoku solver algorithm (Backtracking)
+  // Simple backtracking Sudoku solver
   function solveSudoku(grid) {
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        if (grid[row][col] === 0) {
-          for (let num = 1; num <= 9; num++) {
-            if (isSafe(grid, row, col, num)) {
-              grid[row][col] = num;
-              if (solveSudoku(grid)) {
-                return true;
-              }
-              grid[row][col] = 0;
-            }
-          }
-          return false;
+    const findEmpty = (grid) => {
+      for (let row = 0; row < 9; row++) {
+        for (let col = 0; col < 9; col++) {
+          if (grid[row][col] === 0) return [row, col];
         }
       }
+      return null;
+    };
+
+    const isValid = (grid, row, col, num) => {
+      for (let i = 0; i < 9; i++) {
+        if (grid[row][i] === num || grid[i][col] === num) return false;
+      }
+
+      const startRow = Math.floor(row / 3) * 3;
+      const startCol = Math.floor(col / 3) * 3;
+      for (let i = startRow; i < startRow + 3; i++) {
+        for (let j = startCol; j < startCol + 3; j++) {
+          if (grid[i][j] === num) return false;
+        }
+      }
+
+      return true;
+    };
+
+    const [row, col] = findEmpty(grid) || [];
+
+    if (!row) return true; // Puzzle solved
+
+    for (let num = 1; num <= 9; num++) {
+      if (isValid(grid, row, col, num)) {
+        grid[row][col] = num;
+
+        if (solveSudoku(grid)) return true;
+
+        grid[row][col] = 0;
+      }
     }
-    return true;
+
+    return false;
   }
 
-  // Check if placing num is safe at (row, col)
-  function isSafe(grid, row, col, num) {
-    for (let i = 0; i < 9; i++) {
-      if (grid[row][i] === num || grid[i][col] === num) {
-        return false;
-      }
-    }
-    const startRow = Math.floor(row / 3) * 3;
-    const startCol = Math.floor(col / 3) * 3;
-    for (let i = startRow; i < startRow + 3; i++) {
-      for (let j = startCol; j < startCol + 3; j++) {
-        if (grid[i][j] === num) {
-          return false;
-        }
-      }
-    }
-    return true;
+  // Validate the entire grid for completeness and correctness
+  function validateGrid(grid) {
+    return grid.every(row => row.every(cell => cell >= 1 && cell <= 9));
   }
 });
