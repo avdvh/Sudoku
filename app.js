@@ -53,9 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check for duplicate numbers in the same row, column, or 3x3 box
   function isDuplicate(value, row, col) {
     const grid = getGrid();
+    value = parseInt(value); // Ensure value is treated as an integer
+    
     // Check row and column for duplicates
     for (let i = 0; i < 9; i++) {
-      if ((grid[row][i] == value && i !== col) || (grid[i][col] == value && i !== row)) {
+      if ((grid[row][i] === value && i !== col) || (grid[i][col] === value && i !== row)) {
         return true;
       }
     }
@@ -65,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startCol = Math.floor(col / 3) * 3;
     for (let i = startRow; i < startRow + 3; i++) {
       for (let j = startCol; j < startCol + 3; j++) {
-        if (grid[i][j] == value && (i !== row || j !== col)) {
+        if (grid[i][j] === value && (i !== row || j !== col)) {
           return true;
         }
       }
@@ -127,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.forEach((rowData, rowIndex) => {
       const cells = rows[rowIndex].querySelectorAll('input');
       rowData.forEach((value, colIndex) => {
-        cells[colIndex].value = value ? value : '';
+        cells[colIndex].value = value !== 0 ? value : '';
       });
     });
   }
