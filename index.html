@@ -9,12 +9,12 @@
 <body>
   <div class="container">
     <h1>Sudoku Solver</h1>
-    <table id="sudoku-table"></table>
+    <table id="sudoku-board"></table>
     <div class="buttons">
-      <button class="btn solve-btn" onclick="solveSudoku()">Solve</button>
-      <button class="btn reset-btn" onclick="resetGrid()">Reset</button>
+      <button id="solve-btn" class="btn solve-btn">Solve</button>
+      <button id="reset-btn" class="btn reset-btn">Reset</button>
     </div>
-    <div class="error-message hidden" id="error-message">Invalid Input! Please use numbers between 1 and 9.</div>
+    <div class="error-message hidden" id="error-message"></div>
   </div>
 
   <script src="script.js"></script>
