@@ -137,17 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const findEmpty = (grid) => {
       for (let row = 0; row < 9; row++) {
         for (let col = 0; col < 9; col++) {
-          if (grid[row][col] === 0) return [row, col];
+          if (grid[row][col] === 0) return [row, col]; // Return row, col of empty cell
         }
       }
-      return null;
+      return null; // No empty cells found, puzzle solved
     };
 
     const isValid = (grid, row, col, num) => {
+      // Check row and column for duplicates
       for (let i = 0; i < 9; i++) {
         if (grid[row][i] === num || grid[i][col] === num) return false;
       }
 
+      // Check 3x3 subgrid for duplicates
       const startRow = Math.floor(row / 3) * 3;
       const startCol = Math.floor(col / 3) * 3;
       for (let i = startRow; i < startRow + 3; i++) {
@@ -156,24 +158,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      return true;
+      return true; // Valid number placement
     };
 
     const [row, col] = findEmpty(grid) || [];
 
-    if (!row) return true; // Puzzle solved
+    if (row === undefined) return true; // Puzzle solved
 
     for (let num = 1; num <= 9; num++) {
       if (isValid(grid, row, col, num)) {
-        grid[row][col] = num;
+        grid[row][col] = num; // Place number
 
-        if (solveSudoku(grid)) return true;
+        if (solveSudoku(grid)) return true; // Recurse
 
-        grid[row][col] = 0;
+        grid[row][col] = 0; // Backtrack
       }
     }
 
-    return false;
+    return false; // No valid number found, backtrack
   }
 
   // Validate the entire grid for completeness and correctness
