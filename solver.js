@@ -161,9 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return true; // Valid number placement
     };
 
-    const [row, col] = findEmpty(grid) || [];
+    const emptyCell = findEmpty(grid);
+    if (emptyCell === null) return true; // Puzzle solved
 
-    if (row === undefined) return true; // Puzzle solved
+    const [row, col] = emptyCell;
 
     for (let num = 1; num <= 9; num++) {
       if (isValid(grid, row, col, num)) {
@@ -180,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Validate the entire grid for completeness and correctness
   function validateGrid(grid) {
-    return grid.every(row => row.every(cell => cell >= 1 && cell <= 9));
+    // Only check that all values are within the valid range
+    return grid.every(row => row.every(cell => (cell >= 1 && cell <= 9) || cell === 0));
   }
 });
