@@ -47,6 +47,7 @@ td {
     height: 45px;
     text-align: center;
     border: 1px solid #424242;
+    vertical-align: middle; /* Center content vertically */
 }
 
 input {
@@ -58,11 +59,16 @@ input {
     border: none;
     outline: none;
     text-align: center;
-    font-weight: bold; /* User inputs bold */
 }
 
-.output {
-    font-weight: normal; /* Generated outputs normal weight */
+.user-input {
+    font-weight: bold; /* User inputs bold */
+    color: #ff9800; /* Different color for user inputs */
+}
+
+.generated-output {
+    font-weight: normal; /* Program-generated outputs normal weight */
+    color: #ffffff; /* Standard color for outputs */
 }
 
 input:focus {
