@@ -26,7 +26,8 @@ This is a **Sudoku Solver** built using HTML, CSS, and JavaScript. The applicati
 
 ## Screenshots
 
-![Sudoku Solver UI](https://github.com/user-attachments/assets/99989ea7-7d52-4426-ad0b-cb7e284ab3c5)
+<img width="499" alt="SUDOKU SOLVER" src="https://github.com/user-attachments/assets/b4c6c70d-c6de-43db-a195-e07cd102e2ae">
+
 
 ## Algorithm
 
