@@ -4,22 +4,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetBtn = document.getElementById('reset-btn');
   const errorMessage = document.getElementById('error-message');
 
-  // Generate the 9x9 grid
+  // Generate the Sudoku grid (9x9)
   generateGrid(9);
 
-  // Event listener to handle input validation
+  // Create the Sudoku Grid
   function generateGrid(dimension) {
-    board.innerHTML = ''; // Clear any existing grid
+    board.innerHTML = '';
     for (let row = 0; row < dimension; row++) {
       const tr = document.createElement('tr');
       for (let col = 0; col < dimension; col++) {
         const td = document.createElement('td');
         const input = document.createElement('input');
         input.type = 'text';
-        input.maxLength = 1;
+        input.maxLength = 1; // Only one digit
         input.classList.add('cell');
         
-        // Add input event listener to validate each cell
+        // Add event listener to handle input validation
         input.addEventListener('input', (event) => validateInput(event));
         
         td.appendChild(input);
@@ -29,33 +29,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Validate input: Only allow numbers (1-9), highlight invalid input
+  // Validate user input (only numbers 1-9)
   function validateInput(event) {
     const input = event.target;
     const value = input.value;
 
-    if (!/^\d$/.test(value)) {
+    if (!/^\d$/.test(value) || parseInt(value) < 1 || parseInt(value) > 9) {
       input.classList.add('invalid-input');
-      showError('Only numbers (1-9) are allowed!');
+      showError('Invalid input! Please enter a number between 1-9.');
     } else {
       input.classList.remove('invalid-input');
       clearError();
     }
   }
 
-  // Show error message
+  // Show error messages
   function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.remove('hidden');
   }
 
-  // Clear error message
+  // Clear error messages
   function clearError() {
     errorMessage.textContent = '';
     errorMessage.classList.add('hidden');
   }
 
-  // Solve button functionality
+  // Solve the Sudoku puzzle
   solveBtn.addEventListener('click', () => {
     const grid = getGrid();
     if (validateGrid(grid)) {
@@ -65,11 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
         showError('No solution exists!');
       }
     } else {
-      showError('Ensure all cells have valid numbers before solving.');
+      showError('Ensure all cells contain valid numbers!');
     }
   });
 
-  // Reset button functionality
+  // Reset the board
   resetBtn.addEventListener('click', () => {
     document.querySelectorAll('.cell').forEach(cell => {
       cell.value = '';
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clearError();
   });
 
-  // Get grid values
+  // Get the grid values from the inputs
   function getGrid() {
     const grid = [];
     const cells = document.querySelectorAll('.cell');
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return grid;
   }
 
-  // Set grid values after solving
+  // Set the grid values after solving
   function setGrid(grid) {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell, index) => {
@@ -102,8 +102,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Validate the entire grid (numbers between 1-9)
+  // Validate if the grid is filled with valid numbers
   function validateGrid(grid) {
     return grid.every(row => row.every(cell => cell >= 0 && cell <= 9));
+  }
+
+  // Sudoku solver algorithm (Backtracking)
+  function solveSudoku(grid) {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (grid[row][col] === 0) {
+          for (let num = 1; num <= 9; num++) {
+            if (isSafe(grid, row, col, num)) {
+              grid[row][col] = num;
+              if (solveSudoku(grid)) {
+                return true;
+              }
+              grid[row][col] = 0;
+            }
+          }
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  // Check if placing num is safe at (row, col)
+  function isSafe(grid, row, col, num) {
+    for (let i = 0; i < 9; i++) {
+      if (grid[row][i] === num || grid[i][col] === num) {
+        return false;
+      }
+    }
+    const startRow = Math.floor(row / 3) * 3;
+    const startCol = Math.floor(col / 3) * 3;
+    for (let i = startRow; i < startRow + 3; i++) {
+      for (let j = startCol; j < startCol + 3; j++) {
+        if (grid[i][j] === num) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 });
