@@ -19,7 +19,7 @@ body {
 
 h1 {
   margin-bottom: 20px;
-  font-size: 2em;
+  font-size: 2.5rem;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -27,7 +27,8 @@ h1 {
 .container {
   text-align: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
+  margin-bottom: 30px;
 }
 
 /* Sudoku Table Styling */
@@ -46,7 +47,7 @@ td {
 input {
   width: 100%;
   height: 100%;
-  font-size: 1.2em;
+  font-size: 1.5rem;
   color: #ffffff;
   background-color: #3a3a3a;
   border: none;
@@ -84,11 +85,14 @@ tr:nth-child(3n+1) td {
 /* Buttons */
 .buttons {
   margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .btn {
-  padding: 10px 20px;
-  font-size: 1em;
+  padding: 12px 24px;
+  font-size: 1.1rem;
   margin: 5px;
   cursor: pointer;
   border-radius: 6px;
@@ -143,16 +147,20 @@ tr:nth-child(3n+1) td {
   }
 
   input {
-    font-size: 1em;
+    font-size: 1.2rem;
   }
 
   .btn {
-    font-size: 0.9em;
+    font-size: 1rem;
     padding: 8px 16px;
   }
 
   h1 {
-    font-size: 1.8em;
+    font-size: 2rem;
+  }
+
+  .container {
+    width: 100%;
   }
 }
 
@@ -171,34 +179,7 @@ tr:nth-child(3n+1) td {
   }
 
   .btn {
-    font-size: 1.1em;
+    font-size: 1.2rem;
     padding: 12px 24px;
   }
-}
-
-/* Improved Error Message Visibility */
-.error-message {
-  opacity: 1;
-  transition: opacity 0.5s ease-out;
-}
-
-.error-message.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Smooth Input Focus */
-input:focus {
-  background-color: #505050;
-  border: 2px solid #ff9800;
-}
-
-/* Smooth Button Hover */
-.solve-btn:hover, .reset-btn:hover {
-  background-color: #388e3c;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.solve-btn:active, .reset-btn:active {
-  background-color: #2c6c2f;
 }
