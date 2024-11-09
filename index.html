@@ -10,22 +10,26 @@
   <div class="container">
     <h1>Sudoku Solver</h1>
     
-    <!-- Dimension Selector -->
-    <label for="dimension">Select Dimension:</label>
-    <select id="dimension">
-      <option value="4">4x4</option>
-      <option value="9" selected>9x9</option>
-      <option value="16">16x16</option>
-    </select>
-
-    <div class="grid">
-      <table id="sudoku-board"></table>
+    <!-- Dimension Selection Area -->
+    <div id="dimension-selection">
+      <label for="dimension">Select Dimension:</label>
+      <select id="dimension">
+        <option value="4">4x4</option>
+        <option value="9" selected>9x9</option>
+        <option value="16">16x16</option>
+      </select>
+      <button id="start-btn" class="btn">Start</button>
     </div>
 
-    <!-- Control Buttons -->
-    <div class="buttons">
-      <button id="solve-btn">Solve</button>
-      <button id="reset-btn">Reset</button>
+    <!-- Sudoku Grid and Control Buttons -->
+    <div id="sudoku-area" class="hidden">
+      <div class="grid-container">
+        <table id="sudoku-board"></table>
+      </div>
+      <div class="buttons">
+        <button id="solve-btn" class="btn solve-btn">Solve</button>
+        <button id="reset-btn" class="btn reset-btn">Reset</button>
+      </div>
     </div>
   </div>
   
