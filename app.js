@@ -2,35 +2,57 @@ document.addEventListener('DOMContentLoaded', () => {
   const board = document.getElementById('sudoku-board');
   const solveBtn = document.getElementById('solve-btn');
   const resetBtn = document.getElementById('reset-btn');
-  const dimensionSelector = document.getElementById('dimension');
-  const startBtn = document.getElementById('start-btn');
-  const sudokuArea = document.getElementById('sudoku-area');
-  const dimensionSelection = document.getElementById('dimension-selection');
+  const errorMessage = document.getElementById('error-message');
 
-  // Initialize the grid after selecting a dimension
-  startBtn.addEventListener('click', () => {
-    const dimension = parseInt(dimensionSelector.value);
-    generateGrid(dimension);
-    sudokuArea.classList.remove('hidden');
-    dimensionSelection.classList.add('hidden');
-  });
+  // Generate the 9x9 grid
+  generateGrid(9);
 
-  // Generate the grid with pre-filled and empty cells
+  // Event listener to handle input validation
   function generateGrid(dimension) {
-    board.innerHTML = ''; // Clear previous grid
+    board.innerHTML = ''; // Clear any existing grid
     for (let row = 0; row < dimension; row++) {
       const tr = document.createElement('tr');
       for (let col = 0; col < dimension; col++) {
         const td = document.createElement('td');
         const input = document.createElement('input');
         input.type = 'text';
-        input.maxLength = dimension === 16 ? '2' : '1';
+        input.maxLength = 1;
         input.classList.add('cell');
+        
+        // Add input event listener to validate each cell
+        input.addEventListener('input', (event) => validateInput(event));
+        
         td.appendChild(input);
         tr.appendChild(td);
       }
       board.appendChild(tr);
     }
+  }
+
+  // Validate input: Only allow numbers (1-9), highlight invalid input
+  function validateInput(event) {
+    const input = event.target;
+    const value = input.value;
+
+    if (!/^\d$/.test(value)) {
+      input.classList.add('invalid-input');
+      showError('Only numbers (1-9) are allowed!');
+    } else {
+      input.classList.remove('invalid-input');
+      clearError();
+    }
+  }
+
+  // Show error message
+  function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.classList.remove('hidden');
+  }
+
+  // Clear error message
+  function clearError() {
+    errorMessage.textContent = '';
+    errorMessage.classList.add('hidden');
   }
 
   // Solve button functionality
@@ -40,27 +62,30 @@ document.addEventListener('DOMContentLoaded', () => {
       if (solveSudoku(grid)) {
         setGrid(grid);
       } else {
-        alert('No solution exists!');
+        showError('No solution exists!');
       }
     } else {
-      alert('Please enter valid numbers only!');
+      showError('Ensure all cells have valid numbers before solving.');
     }
   });
 
-  // Reset button to clear the grid
+  // Reset button functionality
   resetBtn.addEventListener('click', () => {
-    document.querySelectorAll('.cell').forEach(cell => cell.value = '');
+    document.querySelectorAll('.cell').forEach(cell => {
+      cell.value = '';
+      cell.classList.remove('invalid-input');
+    });
+    clearError();
   });
 
   // Get grid values
   function getGrid() {
-    const dimension = parseInt(dimensionSelector.value);
     const grid = [];
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell, index) => {
+      const row = Math.floor(index / 9);
+      const col = index % 9;
       const value = parseInt(cell.value) || 0;
-      const row = Math.floor(index / dimension);
-      const col = index % dimension;
       if (!grid[row]) grid[row] = [];
       grid[row][col] = value;
     });
@@ -70,18 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set grid values after solving
   function setGrid(grid) {
     const cells = document.querySelectorAll('.cell');
-    const dimension = parseInt(dimensionSelector.value);
     cells.forEach((cell, index) => {
-      const row = Math.floor(index / dimension);
-      const col = index % dimension;
+      const row = Math.floor(index / 9);
+      const col = index % 9;
       cell.value = grid[row][col] || '';
     });
   }
 
-  // Validate user inputs
+  // Validate the entire grid (numbers between 1-9)
   function validateGrid(grid) {
-    const dimension = parseInt(dimensionSelector.value);
-    const maxValue = dimension === 16 ? 16 : 9;
-    return grid.every(row => row.every(cell => cell >= 0 && cell <= maxValue));
+    return grid.every(row => row.every(cell => cell >= 0 && cell <= 9));
   }
 });
