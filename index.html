@@ -4,22 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sudoku Solver</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
     <h1>Sudoku Solver</h1>
-    
-    <div id="sudoku-area">
-      <table id="sudoku-board"></table>
-      <div class="buttons">
-        <button id="solve-btn" class="btn solve-btn">Solve</button>
-        <button id="reset-btn" class="btn reset-btn">Reset</button>
-      </div>
-      <div id="error-message" class="error-message hidden"></div>
+    <table id="sudoku-table"></table>
+    <div class="buttons">
+      <button class="btn solve-btn" onclick="solveSudoku()">Solve</button>
+      <button class="btn reset-btn" onclick="resetGrid()">Reset</button>
     </div>
+    <div class="error-message hidden" id="error-message">Invalid Input! Please use numbers between 1 and 9.</div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
