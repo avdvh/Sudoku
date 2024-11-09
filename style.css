@@ -1,22 +1,39 @@
-/* General styling omitted for brevity */
-
-/* Error Message Styling */
-#error-message {
-  color: #ff4d4d;
-  font-size: 1em;
-  margin-top: 10px;
-  transition: opacity 0.3s ease;
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Invalid Input Styling */
-.invalid-input {
-  background-color: #ffcccc !important;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #2d2d2d;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 20px;
 }
 
-/* Styling for the 9x9 Sudoku grid with thick borders for 3x3 boxes */
+h1 {
+  margin-bottom: 20px;
+  font-size: 2em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.container {
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Sudoku Table Styling */
 table {
   border-collapse: collapse;
-  margin: 0 auto;
+  width: 100%;
 }
 
 td {
@@ -29,35 +46,54 @@ td {
 input {
   width: 100%;
   height: 100%;
-  border: none;
-  text-align: center;
   font-size: 1.2em;
-  background-color: #3a3a3a;
   color: #ffffff;
-  transition: background-color 0.2s ease-in-out;
+  background-color: #3a3a3a;
+  border: none;
+  outline: none;
 }
 
 input:focus {
   background-color: #505050;
-  outline: none;
-  border-radius: 3px;
+  border: 2px solid #ff9800;
 }
 
+/* Invalid Input Styling */
+.invalid-input {
+  background-color: #f44336 !important;
+  color: white;
+}
+
+/* 3x3 Box Borders */
+td:nth-child(3n) {
+  border-right: 3px solid #424242;
+}
+
+tr:nth-child(3n) td {
+  border-bottom: 3px solid #424242;
+}
+
+td:nth-child(3n+1) {
+  border-left: 3px solid #424242;
+}
+
+tr:nth-child(3n+1) td {
+  border-top: 3px solid #424242;
+}
+
+/* Buttons */
 .buttons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .btn {
   padding: 10px 20px;
   font-size: 1em;
+  margin: 5px;
+  cursor: pointer;
   border-radius: 6px;
   border: none;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease, transform 0.1s ease;
+  transition: all 0.3s ease;
 }
 
 .solve-btn {
@@ -66,12 +102,8 @@ input:focus {
 }
 
 .reset-btn {
-  background-color: #ff5722;
+  background-color: #f44336;
   color: white;
-}
-
-.btn:hover {
-  transform: scale(1.05);
 }
 
 .solve-btn:hover {
@@ -79,37 +111,22 @@ input:focus {
 }
 
 .reset-btn:hover {
-  background-color: #d84315;
+  background-color: #d32f2f;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 1.5em;
-  }
-  td {
-    width: 30px;
-    height: 30px;
-  }
-  .btn {
-    padding: 8px 16px;
-    font-size: 0.9em;
-  }
+.btn:active {
+  transform: scale(0.95);
 }
 
-/* Style for the thick borders around each 3x3 box */
-table td:nth-child(3n) {
-  border-right: 3px solid #424242;
+/* Error Message */
+.error-message {
+  color: #f44336;
+  margin-top: 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: opacity 0.5s ease;
 }
 
-table tr:nth-child(3n) td {
-  border-bottom: 3px solid #424242;
-}
-
-table td:nth-child(3n+1) {
-  border-left: 3px solid #424242;
-}
-
-table tr:nth-child(3n+1) td {
-  border-top: 3px solid #424242;
+.hidden {
+  display: none;
 }
