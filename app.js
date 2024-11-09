@@ -34,10 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = event.target;
     const value = input.value;
 
+    // Check if value is a number and between 1-9
     if (!/^\d$/.test(value) || parseInt(value) < 1 || parseInt(value) > 9) {
       input.classList.add('invalid-input');
       showError('Invalid input! Please enter a number between 1-9.');
     } else {
+      // Check for duplicates in row, column, or 3x3 grid
       if (isDuplicate(value, row, col)) {
         input.classList.add('invalid-input');
         showError('Duplicate number in row, column, or 3x3 grid!');
@@ -119,63 +121,47 @@ document.addEventListener('DOMContentLoaded', () => {
     return grid;
   }
 
-  // Set the grid values after solving
+  // Set the solved grid values back to the UI
   function setGrid(grid) {
     const rows = board.querySelectorAll('tr');
     grid.forEach((rowData, rowIndex) => {
       const cells = rows[rowIndex].querySelectorAll('input');
-      rowData.forEach((cellValue, colIndex) => {
-        cells[colIndex].value = cellValue !== 0 ? cellValue : '';
+      rowData.forEach((value, colIndex) => {
+        cells[colIndex].value = value ? value : '';
       });
     });
   }
 
-  // Simple backtracking Sudoku solver
-  function solveSudoku(grid) {
-    const findEmpty = (grid) => {
-      for (let row = 0; row < 9; row++) {
-        for (let col = 0; col < 9; col++) {
-          if (grid[row][col] === 0) return [row, col];
+  // Validate the entire grid before solving
+  function validateGrid(grid) {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (grid[row][col] !== 0 && isDuplicate(grid[row][col], row, col)) {
+          return false;
         }
-      }
-      return null;
-    };
-
-    const isValid = (grid, row, col, num) => {
-      for (let i = 0; i < 9; i++) {
-        if (grid[row][i] === num || grid[i][col] === num) return false;
-      }
-
-      const startRow = Math.floor(row / 3) * 3;
-      const startCol = Math.floor(col / 3) * 3;
-      for (let i = startRow; i < startRow + 3; i++) {
-        for (let j = startCol; j < startCol + 3; j++) {
-          if (grid[i][j] === num) return false;
-        }
-      }
-
-      return true;
-    };
-
-    const [row, col] = findEmpty(grid) || [];
-
-    if (!row) return true; // Puzzle solved
-
-    for (let num = 1; num <= 9; num++) {
-      if (isValid(grid, row, col, num)) {
-        grid[row][col] = num;
-
-        if (solveSudoku(grid)) return true;
-
-        grid[row][col] = 0;
       }
     }
-
-    return false;
+    return true;
   }
 
-  // Validate the entire grid for completeness and correctness
-  function validateGrid(grid) {
-    return grid.every(row => row.every(cell => cell >= 1 && cell <= 9));
+  // Solving the Sudoku using backtracking
+  function solveSudoku(grid) {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if (grid[row][col] === 0) {
+          for (let num = 1; num <= 9; num++) {
+            if (!isDuplicate(num.toString(), row, col)) {
+              grid[row][col] = num;
+              if (solveSudoku(grid)) {
+                return true;
+              }
+              grid[row][col] = 0;
+            }
+          }
+          return false;
+        }
+      }
+    }
+    return true;
   }
 });
