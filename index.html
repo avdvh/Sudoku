@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sudoku Solver</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Solver</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Sudoku Solver</h1>
-    <table id="sudoku-board"></table>
-    <div class="buttons">
-      <button id="solve-btn" class="btn solve-btn">Solve</button>
-      <button id="reset-btn" class="btn reset-btn">Reset</button>
+    <div class="container">
+        <h1>Sudoku Solver</h1>
+        <table id="sudoku-board"></table>
+        <div class="buttons">
+            <button id="solve-btn" class="btn solve-btn">Solve</button>
+            <button id="reset-btn" class="btn reset-btn">Reset</button>
+        </div>
+        <p id="error-message" class="error-message hidden"></p>
     </div>
-    <div class="error-message hidden" id="error-message"></div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
