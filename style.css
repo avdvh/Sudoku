@@ -51,7 +51,7 @@ td {
     width: 45px;
     height: 45px;
     text-align: center;
-    border: 1px solid #424242;
+    border: 1px solid #ffffff; /* Thin white border for clarity */
     vertical-align: middle; /* Center content vertically */
 }
 
@@ -89,19 +89,19 @@ input:focus {
 
 /* 3x3 Box Borders */
 td:nth-child(3n) {
-    border-right: 3px solid #424242;
+    border-right: 2px solid #ffffff; /* Slightly thicker white border for 3x3 box */
 }
 
 tr:nth-child(3n) td {
-    border-bottom: 3px solid #424242;
+    border-bottom: 2px solid #ffffff; /* Slightly thicker white border for 3x3 box */
 }
 
 td:nth-child(3n+1) {
-    border-left: 3px solid #424242;
+    border-left: 2px solid #ffffff; /* Slightly thicker white border for 3x3 box */
 }
 
 tr:nth-child(3n+1) td {
-    border-top: 3px solid #424242;
+    border-top: 2px solid #ffffff; /* Slightly thicker white border for 3x3 box */
 }
 
 /* Buttons */
