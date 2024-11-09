@@ -34,10 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = event.target;
     const value = input.value;
 
+    // If input is not a valid number between 1 and 9
     if (!/^\d$/.test(value) || parseInt(value) < 1 || parseInt(value) > 9) {
       input.classList.add('invalid-input');
       showError('Invalid input! Please enter a number between 1-9.');
     } else {
+      // Check for duplicates in row, column, or 3x3 grid
       if (isDuplicate(value, row, col)) {
         input.classList.add('invalid-input');
         showError('Duplicate number in row, column, or 3x3 grid!');
