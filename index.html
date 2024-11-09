@@ -9,20 +9,9 @@
 <body>
   <div class="container">
     <h1>Sudoku Solver</h1>
-    
-    <!-- Dimension Selection Area -->
-    <div id="dimension-selection">
-      <label for="dimension">Select Dimension:</label>
-      <select id="dimension">
-        <option value="4">4x4</option>
-        <option value="9" selected>9x9</option>
-        <option value="16">16x16</option>
-      </select>
-      <button id="start-btn" class="btn">Start</button>
-    </div>
 
     <!-- Sudoku Grid and Control Buttons -->
-    <div id="sudoku-area" class="hidden">
+    <div id="sudoku-area">
       <div class="grid-container">
         <table id="sudoku-board"></table>
       </div>
@@ -30,6 +19,7 @@
         <button id="solve-btn" class="btn solve-btn">Solve</button>
         <button id="reset-btn" class="btn reset-btn">Reset</button>
       </div>
+      <div id="error-message" class="hidden"></div>
     </div>
   </div>
   
